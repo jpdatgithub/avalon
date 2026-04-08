@@ -13,7 +13,9 @@ public enum GamePhase
 public enum PlayerRole
 {
     Resistance,
-    Spy
+    Merlin,
+    Spy,
+    Assassin
 }
 
 public enum MissionVoteType

@@ -13,6 +13,10 @@ public class GameSessionService
 
     public void Reset()
     {
-        State = new GameState();
+        State = new GameState
+        {
+            UseMerlin = State.UseMerlin,
+            UseAssassin = State.UseAssassin
+        };
     }
 }

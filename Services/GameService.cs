@@ -6,7 +6,7 @@ public class GameService
 {
     private readonly Random _random = new();
 
-    public GameState StartNewGame(IEnumerable<string> playerNames)
+    public GameState StartNewGame(IEnumerable<string> playerNames, bool useMerlin = true, bool useAssassin = true)
     {
         var names = playerNames
             .Select(name => name.Trim())
@@ -24,7 +24,7 @@ public class GameService
             // .OrderBy(_ => _random.Next())
             .ToList();
 
-        AssignRoles(players);
+        AssignRoles(players, useMerlin, useAssassin);
 
         return new GameState
         {
@@ -36,6 +36,8 @@ public class GameService
             SuccessCount = 0,
             FailureCount = 0,
             CurrentMissionVoteIndex = 0,
+            UseMerlin = useMerlin,
+            UseAssassin = useAssassin,
             WinnerMessage = string.Empty
         };
     }
@@ -120,7 +122,7 @@ public class GameService
 
     public bool CanSabotage(Player player)
     {
-        return player.Role == PlayerRole.Spy;
+        return IsSpyRole(player.Role);
     }
 
     public void SubmitMissionVote(GameState state, MissionVoteType vote)
@@ -132,7 +134,7 @@ public class GameService
 
         var currentPlayer = GetCurrentMissionVoter(state);
 
-        if (currentPlayer.Role == PlayerRole.Resistance && vote == MissionVoteType.Sabotage)
+        if (IsResistanceRole(currentPlayer.Role) && vote == MissionVoteType.Sabotage)
         {
             throw new InvalidOperationException("Jogadores da Resistência só podem cooperar.");
         }
@@ -195,7 +197,7 @@ public class GameService
             : GamePhase.MissionResult;
     }
 
-    private void AssignRoles(List<Player> players)
+    private void AssignRoles(List<Player> players, bool useMerlin, bool useAssassin)
     {
         var spyCount = players.Count switch
         {
@@ -214,6 +216,42 @@ public class GameService
         {
             players[index].Role = spyIndexes.Contains(index) ? PlayerRole.Spy : PlayerRole.Resistance;
         }
+
+        if (useMerlin)
+        {
+            var merlinCandidate = players
+                .Where(player => player.Role == PlayerRole.Resistance)
+                .OrderBy(_ => _random.Next())
+                .FirstOrDefault();
+
+            if (merlinCandidate is not null)
+            {
+                merlinCandidate.Role = PlayerRole.Merlin;
+            }
+        }
+
+        if (useAssassin)
+        {
+            var assassinCandidate = players
+                .Where(player => player.Role == PlayerRole.Spy)
+                .OrderBy(_ => _random.Next())
+                .FirstOrDefault();
+
+            if (assassinCandidate is not null)
+            {
+                assassinCandidate.Role = PlayerRole.Assassin;
+            }
+        }
+    }
+
+    private static bool IsResistanceRole(PlayerRole role)
+    {
+        return role is PlayerRole.Resistance or PlayerRole.Merlin;
+    }
+
+    private static bool IsSpyRole(PlayerRole role)
+    {
+        return role is PlayerRole.Spy or PlayerRole.Assassin;
     }
 
     public void GoBack(GameState state)
@@ -298,5 +336,15 @@ public class GameService
         state.CurrentMissionVoteIndex = 0;
         state.WinnerMessage = string.Empty;
         state.Phase = GamePhase.SelectTeam;
+    }
+
+    public void OnMerlinClicked(GameState state)
+    {
+        state.Merlin = !state.Merlin;
+    }
+
+    public void OnAssassinClicked(GameState state)
+    {
+        state.Assassin = !state.Assassin;
     }
 }

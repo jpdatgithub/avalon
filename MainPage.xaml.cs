@@ -55,11 +55,33 @@ public partial class MainPage : ContentPage
 		RenderState();
 	}
 
+	private void OnMerlinClicked(object? sender, EventArgs e)
+	{
+		if (_session.State.Phase != GamePhase.Lobby)
+		{
+			return;
+		}
+
+		_session.State.UseMerlin = !_session.State.UseMerlin;
+		RenderState();
+	}
+
+	private void OnAssassinClicked(object? sender, EventArgs e)
+	{
+		if (_session.State.Phase != GamePhase.Lobby)
+		{
+			return;
+		}
+
+		_session.State.UseAssassin = !_session.State.UseAssassin;
+		RenderState();
+	}
+
 	private async void OnStartGameClicked(object? sender, EventArgs e)
 	{
 		try
 		{
-			_session.SetState(_gameService.StartNewGame(_lobbyPlayers));
+			_session.SetState(_gameService.StartNewGame(_lobbyPlayers, _session.State.UseMerlin, _session.State.UseAssassin));
 			_isRoleVisible = false;
 			TeamPlayersCollection.ItemsSource = _session.State.Players;
 			TeamPlayersCollection.SelectedItems = new List<object>();
@@ -181,11 +203,22 @@ public partial class MainPage : ContentPage
 	private void RenderState()
 	{
 		var state = _session.State;
+		var activeSpecialRoles = string.Join(", ", new[]
+		{
+			state.UseMerlin ? "Merlin" : null,
+			state.UseAssassin ? "Assassino" : null
+		}.Where(role => !string.IsNullOrWhiteSpace(role)));
 
-		LobbyInfoLabel.Text = $"Jogadores cadastrados: {_lobbyPlayers.Count}/10 (mínimo 5).";
+		LobbyInfoLabel.Text = $"Jogadores cadastrados: {_lobbyPlayers.Count}/10 (mínimo 5). Especiais: {(string.IsNullOrWhiteSpace(activeSpecialRoles) ? "nenhuma" : activeSpecialRoles)}.";
 		StartGameButton.IsEnabled = _lobbyPlayers.Count >= 5;
 		ScoreLabel.Text = $"Missões aprovadas: {state.SuccessCount} | Missões falhas: {state.FailureCount}";
 		StatusLabel.Text = BuildStatusText(state);
+		MerlinButton.IsVisible = state.Phase == GamePhase.Lobby;
+		AssassinButton.IsVisible = state.Phase == GamePhase.Lobby;
+		MerlinButton.BackgroundColor = state.UseMerlin ? Color.FromArgb("#7C3AED") : Color.FromArgb("#E5E7EB");
+		MerlinButton.TextColor = state.UseMerlin ? Colors.White : Colors.Black;
+		AssassinButton.BackgroundColor = state.UseAssassin ? Color.FromArgb("#B42318") : Color.FromArgb("#E5E7EB");
+		AssassinButton.TextColor = state.UseAssassin ? Colors.White : Colors.Black;
 
 		LobbySection.IsVisible = state.Phase == GamePhase.Lobby;
 		RevealSection.IsVisible = state.Phase == GamePhase.RevealRoles;
@@ -240,11 +273,29 @@ public partial class MainPage : ContentPage
 			? "Começar a missão 1"
 			: "Passar para o próximo jogador";
 
-		RoleNameLabel.Text = currentPlayer.Role == PlayerRole.Resistance ? "Resistência" : "Sabotador";
-		RoleNameLabel.TextColor = Color.FromArgb(currentPlayer.Role == PlayerRole.Resistance ? "#1D4ED8" : "#B42318");
-		RoleDescriptionLabel.Text = currentPlayer.Role == PlayerRole.Resistance
-			? "Seu objetivo é aprovar 3 missões. Durante uma missão você sempre coopera."
-			: "Seu objetivo é falhar 3 missões. Durante uma missão você pode cooperar para disfarçar ou sabotar.";
+		RoleNameLabel.Text = currentPlayer.Role switch
+		{
+			PlayerRole.Merlin => "Merlin",
+			PlayerRole.Assassin => "Assassino",
+			PlayerRole.Spy => "Sabotador",
+			_ => "Resistência"
+		};
+
+		RoleNameLabel.TextColor = Color.FromArgb(currentPlayer.Role switch
+		{
+			PlayerRole.Merlin => "#7C3AED",
+			PlayerRole.Assassin => "#B42318",
+			PlayerRole.Spy => "#B42318",
+			_ => "#1D4ED8"
+		});
+
+		RoleDescriptionLabel.Text = currentPlayer.Role switch
+		{
+			PlayerRole.Merlin => "Você é Merlin. Neste MVP, você joga com a Resistência e coopera normalmente nas missões.",
+			PlayerRole.Assassin => "Você é o Assassino. Neste MVP, você joga com os Sabotadores e pode cooperar ou sabotar nas missões.",
+			PlayerRole.Spy => "Seu objetivo é falhar 3 missões. Durante uma missão você pode cooperar para disfarçar ou sabotar.",
+			_ => "Seu objetivo é aprovar 3 missões. Durante uma missão você sempre coopera."
+		};
 	}
 
 	private void RenderTeamSelectionPhase(GameState state)
