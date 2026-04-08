@@ -215,4 +215,88 @@ public class GameService
             players[index].Role = spyIndexes.Contains(index) ? PlayerRole.Spy : PlayerRole.Resistance;
         }
     }
+
+    public void GoBack(GameState state)
+    {
+        switch (state.Phase)
+        {
+            case GamePhase.RevealRoles:
+                if (state.RevealPlayerIndex > 0)
+                {
+                    state.RevealPlayerIndex--;
+                }
+                else
+                {
+                    state.Phase = GamePhase.Lobby;
+                }
+                break;
+
+            case GamePhase.SelectTeam:
+                if (state.MissionHistory.Count > 0)
+                {
+                    RevertLastCompletedMission(state, fromAdvancedSelectTeam: true);
+                }
+                else
+                {
+                    state.Phase = GamePhase.RevealRoles;
+                }
+                break;
+
+            case GamePhase.MissionVote:
+                state.CurrentMission = null;
+                state.CurrentMissionVoteIndex = 0;
+                state.Phase = GamePhase.SelectTeam;
+                break;
+
+            case GamePhase.MissionResult:
+                RevertLastCompletedMission(state, fromAdvancedSelectTeam: false);
+                break;
+
+            case GamePhase.GameOver:
+                if (state.MissionHistory.Count > 0)
+                {
+                    RevertLastCompletedMission(state, fromAdvancedSelectTeam: false);
+                }
+                else
+                {
+                    state.Phase = GamePhase.Lobby;
+                }
+                break;
+        }
+    }
+
+    private static void RevertLastCompletedMission(GameState state, bool fromAdvancedSelectTeam)
+    {
+        if (state.MissionHistory.Count == 0)
+        {
+            state.CurrentMission = null;
+            state.CurrentMissionVoteIndex = 0;
+            state.Phase = GamePhase.SelectTeam;
+            return;
+        }
+
+        var lastMission = state.MissionHistory[^1];
+        state.MissionHistory.RemoveAt(state.MissionHistory.Count - 1);
+
+        if (lastMission.Outcome == MissionOutcome.Success && state.SuccessCount > 0)
+        {
+            state.SuccessCount--;
+        }
+        else if (lastMission.Outcome == MissionOutcome.Failure && state.FailureCount > 0)
+        {
+            state.FailureCount--;
+        }
+
+        state.RoundNumber = Math.Max(1, lastMission.RoundNumber);
+
+        if (fromAdvancedSelectTeam && state.Players.Count > 0)
+        {
+            state.LeaderIndex = (state.LeaderIndex - 1 + state.Players.Count) % state.Players.Count;
+        }
+
+        state.CurrentMission = null;
+        state.CurrentMissionVoteIndex = 0;
+        state.WinnerMessage = string.Empty;
+        state.Phase = GamePhase.SelectTeam;
+    }
 }

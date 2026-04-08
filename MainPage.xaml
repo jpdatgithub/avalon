@@ -6,7 +6,7 @@
 
     <ScrollView>
         <VerticalStackLayout Padding="24"
-                Spacing="16">
+                             Spacing="16">
 
             <Label Text="The Resistance"
                    Style="{StaticResource Headline}"
@@ -17,24 +17,24 @@
                    Padding="16">
                 <VerticalStackLayout Spacing="6">
                     <Label Text="Status da partida"
-                            FontAttributes="Bold"/>
+                           FontAttributes="Bold"/>
                     <Label x:Name="StatusLabel"
-                            Text="Adicione jogadores para começar."/>
+                           Text="Adicione jogadores para começar."/>
                     <Label x:Name="ScoreLabel"
-                            Text="Missões aprovadas: 0 | Missões falhas: 0"/>
+                           Text="Missões aprovadas: 0 | Missões falhas: 0"/>
                 </VerticalStackLayout>
             </Frame>
 
             <VerticalStackLayout x:Name="LobbySection"
-                    Spacing="12">
+                                 Spacing="12">
                 <Label Text="1) Monte a mesa"
-                        FontAttributes="Bold"
-                        FontSize="18"/>
+                       FontAttributes="Bold"
+                       FontSize="18"/>
                 <Label x:Name="LobbyInfoLabel"
                        Text="Adicione entre 5 e 10 jogadores."/>
 
                 <Grid ColumnDefinitions="*,Auto"
-                        ColumnSpacing="10">
+                      ColumnSpacing="10">
                     <Entry x:Name="PlayerNameEntry"
                            Placeholder="Nome do jogador"
                            ReturnType="Done"
@@ -86,7 +86,7 @@
                        BorderColor="#BBBBBB">
                     <VerticalStackLayout Spacing="8">
                         <Label Text="Seu papel"
-                                FontAttributes="Bold"/>
+                               FontAttributes="Bold"/>
                         <Label x:Name="RoleNameLabel"
                                FontSize="24"
                                FontAttributes="Bold"/>
@@ -109,7 +109,7 @@
                 <Label x:Name="LeaderLabel"/>
                 <Label x:Name="RoundInfoLabel"/>
                 <Label x:Name="SpecialRuleLabel"
-                        TextColor="#B54708"/>
+                       TextColor="#B54708"/>
                 <Label x:Name="TeamSelectionCountLabel"/>
 
                 <CollectionView x:Name="TeamPlayersCollection"
@@ -191,8 +191,13 @@
                 <Button Text="Nova partida"
                         Clicked="OnRestartGameClicked"/>
             </VerticalStackLayout>
-
+            <Button Text="Voltar"
+                    Clicked="OnBackClicked"
+                    HorizontalOptions="Start"
+                    VerticalOptions="End"
+                    Margin="16"/>
         </VerticalStackLayout>
+
     </ScrollView>
 
 </ContentPage>

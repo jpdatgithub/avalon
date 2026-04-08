@@ -312,4 +312,12 @@ public partial class MainPage : ContentPage
 
 		return $"Histórico: {string.Join(" | ", summary)}";
 	}
+
+	private void OnBackClicked(object? sender, EventArgs e)
+	{
+		_gameService.GoBack(_session.State);
+		_isRoleVisible = false;
+		ResetVoteUi();
+		RenderState();
+	}
 }
