@@ -6,7 +6,7 @@ public class GameService
 {
     private readonly Random _random = new();
 
-    public GameState StartNewGame(IEnumerable<string> playerNames, bool useMerlin = true, bool useAssassin = true)
+    public GameState StartNewGame(IEnumerable<string> playerNames, bool useAssassinMerlin = true)
     {
         var names = playerNames
             .Select(name => name.Trim())
@@ -24,7 +24,7 @@ public class GameService
             // .OrderBy(_ => _random.Next())
             .ToList();
 
-        AssignRoles(players, useMerlin, useAssassin);
+        AssignRoles(players, useAssassinMerlin);
 
         return new GameState
         {
@@ -36,8 +36,7 @@ public class GameService
             SuccessCount = 0,
             FailureCount = 0,
             CurrentMissionVoteIndex = 0,
-            UseMerlin = useMerlin,
-            UseAssassin = useAssassin,
+            UseAssassinMerlin = useAssassinMerlin,
             WinnerMessage = string.Empty
         };
     }
@@ -197,7 +196,7 @@ public class GameService
             : GamePhase.MissionResult;
     }
 
-    private void AssignRoles(List<Player> players, bool useMerlin, bool useAssassin)
+    private void AssignRoles(List<Player> players, bool useAssassinMerlin)
     {
         var spyCount = players.Count switch
         {
@@ -217,7 +216,7 @@ public class GameService
             players[index].Role = spyIndexes.Contains(index) ? PlayerRole.Spy : PlayerRole.Resistance;
         }
 
-        if (useMerlin)
+        if (useAssassinMerlin)
         {
             var merlinCandidate = players
                 .Where(player => player.Role == PlayerRole.Resistance)
@@ -230,7 +229,7 @@ public class GameService
             }
         }
 
-        if (useAssassin)
+        if (useAssassinMerlin)
         {
             var assassinCandidate = players
                 .Where(player => player.Role == PlayerRole.Spy)
@@ -338,13 +337,8 @@ public class GameService
         state.Phase = GamePhase.SelectTeam;
     }
 
-    public void OnMerlinClicked(GameState state)
+    public void OnAssassinMerlinClicked(GameState state)
     {
-        state.Merlin = !state.Merlin;
-    }
-
-    public void OnAssassinClicked(GameState state)
-    {
-        state.Assassin = !state.Assassin;
+        state.AssassinMerlin = !state.AssassinMerlin;
     }
 }

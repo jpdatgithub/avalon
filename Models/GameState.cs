@@ -22,13 +22,9 @@ public class GameState
 
     public int FailureCount { get; set; }
 
-    public bool UseMerlin { get; set; } = true;
-
-    public bool UseAssassin { get; set; } = true;
-
     public string WinnerMessage { get; set; } = string.Empty;
 
-    public bool Merlin { get; set; } = true;
+    public bool AssassinMerlin { get; set; } = true;
 
-    public bool Assassin { get; set; } = true;
+    public bool UseAssassinMerlin { get; set; } = true;
 }

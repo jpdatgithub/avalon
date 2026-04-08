@@ -226,10 +226,10 @@
                         HorizontalOptions="Start"/>
                 <Button x:Name="MerlinButton"
                         Text="Merlin"
-                        Clicked="OnMerlinClicked"/>
+                        Clicked="OnAssassinMerlinClicked"/>
                 <Button x:Name="AssassinButton"
                         Text="Assassin"
-                        Clicked="OnAssassinClicked"/>
+                        Clicked="OnAssassinMerlinClicked"/>
             </HorizontalStackLayout>
         </VerticalStackLayout>
 

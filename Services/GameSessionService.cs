@@ -15,8 +15,7 @@ public class GameSessionService
     {
         State = new GameState
         {
-            UseMerlin = State.UseMerlin,
-            UseAssassin = State.UseAssassin
+            UseAssassinMerlin = State.UseAssassinMerlin
         };
     }
 }
