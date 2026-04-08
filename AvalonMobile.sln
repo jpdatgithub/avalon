@@ -1,0 +1,24 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Avalon", "Avalon.csproj", "{DE56FB5E-2694-3C88-183E-89E2A2AA5DD3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DE56FB5E-2694-3C88-183E-89E2A2AA5DD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE56FB5E-2694-3C88-183E-89E2A2AA5DD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE56FB5E-2694-3C88-183E-89E2A2AA5DD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE56FB5E-2694-3C88-183E-89E2A2AA5DD3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B02026C9-E1D3-4D7E-9B05-ADCF73A920FD}
+	EndGlobalSection
+EndGlobal
