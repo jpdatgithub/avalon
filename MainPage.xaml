@@ -10,18 +10,22 @@
             <Label Text="Resistere"
                    Style="{StaticResource Headline}"
                    FontAttributes="Italic"
+                   TextColor="{AppThemeBinding Light=#111827, Dark=White}"
                    SemanticProperties.HeadingLevel="Level1"/>
 
-            <Frame BackgroundColor="#F3EEFF"
-                   BorderColor="#512BD4"
+            <Frame BackgroundColor="{AppThemeBinding Light=#F3EEFF, Dark=#2A223D}"
+                   BorderColor="{AppThemeBinding Light=#512BD4, Dark=#9B87F5}"
                    Padding="16">
                 <VerticalStackLayout Spacing="6">
                     <Label Text="Status da partida"
-                           FontAttributes="Bold"/>
+                           FontAttributes="Bold"
+                           TextColor="{AppThemeBinding Light=#111827, Dark=White}"/>
                     <Label x:Name="StatusLabel"
-                           Text="Adicione jogadores para começar."/>
+                           Text="Adicione jogadores para começar."
+                           TextColor="{AppThemeBinding Light=#111827, Dark=#F3F4F6}"/>
                     <Label x:Name="ScoreLabel"
-                           Text="Missões aprovadas: 0 | Missões falhas: 0"/>
+                           Text="Missões aprovadas: 0 | Missões falhas: 0"
+                           TextColor="{AppThemeBinding Light=#111827, Dark=#F3F4F6}"/>
                 </VerticalStackLayout>
             </Frame>
 
@@ -29,15 +33,19 @@
                                  Spacing="12">
                 <Label Text="1) Monte a mesa"
                        FontAttributes="Bold"
-                       FontSize="18"/>
+                       FontSize="18"
+                       TextColor="{AppThemeBinding Light=#111827, Dark=White}"/>
                 <Label x:Name="LobbyInfoLabel"
-                       Text="Adicione entre 5 e 10 jogadores."/>
+                       Text="Adicione entre 5 e 10 jogadores."
+                       TextColor="{AppThemeBinding Light=#111827, Dark=#F3F4F6}"/>
 
                 <Grid ColumnDefinitions="*,Auto"
                       ColumnSpacing="10">
                     <Entry x:Name="PlayerNameEntry"
                            Placeholder="Nome do jogador"
                            ReturnType="Done"
+                           TextColor="{AppThemeBinding Light=#111827, Dark=White}"
+                           PlaceholderColor="{AppThemeBinding Light=#6B7280, Dark=#D1D5DB}"
                            Completed="OnAddPlayerClicked"/>
                     <Button Grid.Column="1"
                             Text="Adicionar"
@@ -59,9 +67,10 @@
                         <DataTemplate>
                             <Frame Margin="0,0,0,8"
                                    Padding="12"
-                                   BackgroundColor="#F7F7F7"
-                                   BorderColor="#DDDDDD">
-                                <Label Text="{Binding .}"/>
+                                   BackgroundColor="{AppThemeBinding Light=#F7F7F7, Dark=#2B2B2B}"
+                                   BorderColor="{AppThemeBinding Light=#DDDDDD, Dark=#555555}">
+                                <Label Text="{Binding .}"
+                                       TextColor="{AppThemeBinding Light=#111827, Dark=White}"/>
                             </Frame>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
@@ -73,8 +82,10 @@
                                  Spacing="12">
                 <Label Text="2) Revelação secreta"
                        FontAttributes="Bold"
-                       FontSize="18"/>
-                <Label x:Name="RevealPromptLabel"/>
+                       FontSize="18"
+                       TextColor="{AppThemeBinding Light=#111827, Dark=White}"/>
+                <Label x:Name="RevealPromptLabel"
+                       TextColor="{AppThemeBinding Light=#111827, Dark=#F3F4F6}"/>
                 <Button x:Name="ShowRoleButton"
                         Text="Mostrar minha identidade"
                         Clicked="OnShowRoleClicked"/>
@@ -82,15 +93,17 @@
                 <Frame x:Name="RoleCardFrame"
                        IsVisible="False"
                        Padding="16"
-                       BackgroundColor="#FAFAFA"
-                       BorderColor="#BBBBBB">
+                       BackgroundColor="{AppThemeBinding Light=#FAFAFA, Dark=#2B2B2B}"
+                       BorderColor="{AppThemeBinding Light=#BBBBBB, Dark=#555555}">
                     <VerticalStackLayout Spacing="8">
                         <Label Text="Seu papel"
-                               FontAttributes="Bold"/>
+                               FontAttributes="Bold"
+                               TextColor="{AppThemeBinding Light=#111827, Dark=White}"/>
                         <Label x:Name="RoleNameLabel"
                                FontSize="24"
                                FontAttributes="Bold"/>
-                        <Label x:Name="RoleDescriptionLabel"/>
+                        <Label x:Name="RoleDescriptionLabel"
+                               TextColor="{AppThemeBinding Light=#111827, Dark=#F3F4F6}"/>
                     </VerticalStackLayout>
                 </Frame>
 
@@ -105,12 +118,16 @@
                                  Spacing="12">
                 <Label Text="3) Escolha da missão"
                        FontAttributes="Bold"
-                       FontSize="18"/>
-                <Label x:Name="LeaderLabel"/>
-                <Label x:Name="RoundInfoLabel"/>
+                       FontSize="18"
+                       TextColor="{AppThemeBinding Light=#111827, Dark=White}"/>
+                <Label x:Name="LeaderLabel"
+                       TextColor="{AppThemeBinding Light=#111827, Dark=#F3F4F6}"/>
+                <Label x:Name="RoundInfoLabel"
+                       TextColor="{AppThemeBinding Light=#111827, Dark=#F3F4F6}"/>
                 <Label x:Name="SpecialRuleLabel"
-                       TextColor="#B54708"/>
-                <Label x:Name="TeamSelectionCountLabel"/>
+                       TextColor="{AppThemeBinding Light=#B54708, Dark=#FDBA74}"/>
+                <Label x:Name="TeamSelectionCountLabel"
+                       TextColor="{AppThemeBinding Light=#111827, Dark=#F3F4F6}"/>
 
                 <CollectionView x:Name="TeamPlayersCollection"
                                 SelectionMode="Multiple"
@@ -120,9 +137,10 @@
                         <DataTemplate>
                             <Frame Margin="0,0,0,8"
                                    Padding="12"
-                                   BackgroundColor="#F7F7F7"
-                                   BorderColor="#DDDDDD">
-                                <Label Text="{Binding Name}"/>
+                                   BackgroundColor="{AppThemeBinding Light=#F7F7F7, Dark=#2B2B2B}"
+                                   BorderColor="{AppThemeBinding Light=#DDDDDD, Dark=#555555}">
+                                <Label Text="{Binding Name}"
+                                       TextColor="{AppThemeBinding Light=#111827, Dark=White}"/>
                             </Frame>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
@@ -139,9 +157,12 @@
                                  Spacing="12">
                 <Label Text="4) Votação secreta da missão"
                        FontAttributes="Bold"
-                       FontSize="18"/>
-                <Label x:Name="VotingPlayerLabel"/>
-                <Label x:Name="VotingHintLabel"/>
+                       FontSize="18"
+                       TextColor="{AppThemeBinding Light=#111827, Dark=White}"/>
+                <Label x:Name="VotingPlayerLabel"
+                       TextColor="{AppThemeBinding Light=#111827, Dark=#F3F4F6}"/>
+                <Label x:Name="VotingHintLabel"
+                       TextColor="{AppThemeBinding Light=#111827, Dark=#F3F4F6}"/>
 
                 <Button x:Name="RevealVoteOptionsButton"
                         Text="Estou pronto para votar"
@@ -166,13 +187,17 @@
                                  Spacing="12">
                 <Label Text="5) Resultado da missão"
                        FontAttributes="Bold"
-                       FontSize="18"/>
+                       FontSize="18"
+                       TextColor="{AppThemeBinding Light=#111827, Dark=White}"/>
                 <Label x:Name="MissionOutcomeLabel"
                        FontSize="24"
                        FontAttributes="Bold"/>
-                <Label x:Name="MissionSummaryLabel"/>
-                <Label x:Name="MissionRuleSummaryLabel"/>
-                <Label x:Name="MissionHistoryLabel"/>
+                <Label x:Name="MissionSummaryLabel"
+                       TextColor="{AppThemeBinding Light=#111827, Dark=#F3F4F6}"/>
+                <Label x:Name="MissionRuleSummaryLabel"
+                       TextColor="{AppThemeBinding Light=#111827, Dark=#F3F4F6}"/>
+                <Label x:Name="MissionHistoryLabel"
+                       TextColor="{AppThemeBinding Light=#111827, Dark=#F3F4F6}"/>
                 <Button x:Name="ContinueAfterMissionButton"
                         Text="Próxima missão"
                         Clicked="OnContinueAfterMissionClicked"/>
@@ -183,11 +208,14 @@
                                  Spacing="12">
                 <Label Text="Fim de jogo"
                        FontAttributes="Bold"
-                       FontSize="18"/>
+                       FontSize="18"
+                       TextColor="{AppThemeBinding Light=#111827, Dark=White}"/>
                 <Label x:Name="GameOverLabel"
                        FontSize="24"
-                       FontAttributes="Bold"/>
-                <Label x:Name="FinalHistoryLabel"/>
+                       FontAttributes="Bold"
+                       TextColor="{AppThemeBinding Light=#111827, Dark=White}"/>
+                <Label x:Name="FinalHistoryLabel"
+                       TextColor="{AppThemeBinding Light=#111827, Dark=#F3F4F6}"/>
                 <Button Text="Nova partida"
                         Clicked="OnRestartGameClicked"/>
             </VerticalStackLayout>
