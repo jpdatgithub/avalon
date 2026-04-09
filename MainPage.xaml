@@ -3,236 +3,236 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Avalon.MainPage">
 
-    <ScrollView>
-        <VerticalStackLayout Padding="24"
-                             Spacing="16">
+       <ScrollView>
+              <VerticalStackLayout Padding="24"
+                                   Spacing="16">
 
-            <Label Text="Resistere"
-                   Style="{StaticResource Headline}"
-                   FontAttributes="Italic"
-                   TextColor="{AppThemeBinding Light=#111827, Dark=White}"
-                   SemanticProperties.HeadingLevel="Level1"/>
+                     <Label Text="Resistere"
+                            Style="{StaticResource Headline}"
+                            FontAttributes="Italic"
+                            TextColor="{AppThemeBinding Light=#111827, Dark=White}"
+                            SemanticProperties.HeadingLevel="Level1"/>
 
-            <Frame BackgroundColor="{AppThemeBinding Light=#F3EEFF, Dark=#2A223D}"
-                   BorderColor="{AppThemeBinding Light=#512BD4, Dark=#9B87F5}"
-                   Padding="16">
-                <VerticalStackLayout Spacing="6">
-                    <Label Text="Status da partida"
-                           FontAttributes="Bold"
-                           TextColor="{AppThemeBinding Light=#111827, Dark=White}"/>
-                    <Label x:Name="StatusLabel"
-                           Text="Adicione jogadores para começar."
-                           TextColor="{AppThemeBinding Light=#111827, Dark=#F3F4F6}"/>
-                    <Label x:Name="ScoreLabel"
-                           Text="Missões aprovadas: 0 | Missões falhas: 0"
-                           TextColor="{AppThemeBinding Light=#111827, Dark=#F3F4F6}"/>
-                </VerticalStackLayout>
-            </Frame>
+                     <Border BackgroundColor="{AppThemeBinding Light=#F3EEFF, Dark=#2A223D}"
+                             Stroke="{AppThemeBinding Light=#512BD4, Dark=#9B87F5}"
+                             Padding="16">
+                            <VerticalStackLayout Spacing="6">
+                                   <Label Text="Status da partida"
+                                          FontAttributes="Bold"
+                                          TextColor="{AppThemeBinding Light=#111827, Dark=White}"/>
+                                   <Label x:Name="StatusLabel"
+                                          Text="Adicione jogadores para começar."
+                                          TextColor="{AppThemeBinding Light=#111827, Dark=#F3F4F6}"/>
+                                   <Label x:Name="ScoreLabel"
+                                          Text="Missões aprovadas: 0 | Missões falhas: 0"
+                                          TextColor="{AppThemeBinding Light=#111827, Dark=#F3F4F6}"/>
+                            </VerticalStackLayout>
+                     </Border>
 
-            <VerticalStackLayout x:Name="LobbySection"
-                                 Spacing="12">
-                <Label Text="1) Monte a mesa"
-                       FontAttributes="Bold"
-                       FontSize="18"
-                       TextColor="{AppThemeBinding Light=#111827, Dark=White}"/>
-                <Label x:Name="LobbyInfoLabel"
-                       Text="Adicione entre 5 e 10 jogadores."
-                       TextColor="{AppThemeBinding Light=#111827, Dark=#F3F4F6}"/>
+                     <VerticalStackLayout x:Name="LobbySection"
+                                          Spacing="12">
+                            <Label Text="1) Monte a mesa"
+                                   FontAttributes="Bold"
+                                   FontSize="18"
+                                   TextColor="{AppThemeBinding Light=#111827, Dark=White}"/>
+                            <Label x:Name="LobbyInfoLabel"
+                                   Text="Adicione entre 5 e 10 jogadores."
+                                   TextColor="{AppThemeBinding Light=#111827, Dark=#F3F4F6}"/>
 
-                <Grid ColumnDefinitions="*,Auto"
-                      ColumnSpacing="10">
-                    <Entry x:Name="PlayerNameEntry"
-                           Placeholder="Nome do jogador"
-                           ReturnType="Done"
-                           TextColor="{AppThemeBinding Light=#111827, Dark=White}"
-                           PlaceholderColor="{AppThemeBinding Light=#6B7280, Dark=#D1D5DB}"
-                           Completed="OnAddPlayerClicked"/>
-                    <Button Grid.Column="1"
-                            Text="Adicionar"
-                            Clicked="OnAddPlayerClicked"/>
-                </Grid>
+                            <Grid ColumnDefinitions="*,Auto"
+                                  ColumnSpacing="10">
+                                   <Entry x:Name="PlayerNameEntry"
+                                          Placeholder="Nome do jogador"
+                                          ReturnType="Done"
+                                          TextColor="{AppThemeBinding Light=#111827, Dark=White}"
+                                          PlaceholderColor="{AppThemeBinding Light=#6B7280, Dark=#D1D5DB}"
+                                          Completed="OnAddPlayerClicked"/>
+                                   <Button Grid.Column="1"
+                                           Text="Adicionar"
+                                           Clicked="OnAddPlayerClicked"/>
+                            </Grid>
 
-                <HorizontalStackLayout Spacing="10">
-                    <Button Text="Resetar lista"
-                            Clicked="OnClearPlayersClicked"/>
-                    <Button x:Name="StartGameButton"
-                            Text="Começar partida"
-                            Clicked="OnStartGameClicked"
-                            IsEnabled="False"/>
-                </HorizontalStackLayout>
+                            <HorizontalStackLayout Spacing="10">
+                                   <Button Text="Resetar lista"
+                                           Clicked="OnClearPlayersClicked"/>
+                                   <Button x:Name="StartGameButton"
+                                           Text="Começar partida"
+                                           Clicked="OnStartGameClicked"
+                                           IsEnabled="False"/>
+                            </HorizontalStackLayout>
 
-                <CollectionView x:Name="LobbyPlayersCollection"
-                                HeightRequest="220">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Frame Margin="0,0,0,8"
-                                   Padding="12"
-                                   BackgroundColor="{AppThemeBinding Light=#F7F7F7, Dark=#2B2B2B}"
-                                   BorderColor="{AppThemeBinding Light=#DDDDDD, Dark=#555555}">
-                                <Label Text="{Binding .}"
-                                       TextColor="{AppThemeBinding Light=#111827, Dark=White}"/>
-                            </Frame>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
-            </VerticalStackLayout>
+                            <CollectionView x:Name="LobbyPlayersCollection"
+                                            HeightRequest="220">
+                                   <CollectionView.ItemTemplate>
+                                          <DataTemplate>
+                                                 <Border Margin="0,0,0,8"
+                                                         Padding="12"
+                                                         BackgroundColor="{AppThemeBinding Light=#F7F7F7, Dark=#2B2B2B}"
+                                                         Stroke="{AppThemeBinding Light=#DDDDDD, Dark=#555555}">
+                                                        <Label Text="{Binding .}"
+                                                               TextColor="{AppThemeBinding Light=#111827, Dark=White}"/>
+                                                 </Border>
+                                          </DataTemplate>
+                                   </CollectionView.ItemTemplate>
+                            </CollectionView>
+                     </VerticalStackLayout>
 
-            <VerticalStackLayout x:Name="RevealSection"
-                                 IsVisible="False"
-                                 Spacing="12">
-                <Label Text="2) Revelação secreta"
-                       FontAttributes="Bold"
-                       FontSize="18"
-                       TextColor="{AppThemeBinding Light=#111827, Dark=White}"/>
-                <Label x:Name="RevealPromptLabel"
-                       TextColor="{AppThemeBinding Light=#111827, Dark=#F3F4F6}"/>
-                <Button x:Name="ShowRoleButton"
-                        Text="Mostrar minha identidade"
-                        Clicked="OnShowRoleClicked"/>
+                     <VerticalStackLayout x:Name="RevealSection"
+                                          IsVisible="False"
+                                          Spacing="12">
+                            <Label Text="2) Revelação secreta"
+                                   FontAttributes="Bold"
+                                   FontSize="18"
+                                   TextColor="{AppThemeBinding Light=#111827, Dark=White}"/>
+                            <Label x:Name="RevealPromptLabel"
+                                   TextColor="{AppThemeBinding Light=#111827, Dark=#F3F4F6}"/>
+                            <Button x:Name="ShowRoleButton"
+                                    Text="Mostrar minha identidade"
+                                    Clicked="OnShowRoleClicked"/>
 
-                <Frame x:Name="RoleCardFrame"
-                       IsVisible="False"
-                       Padding="16"
-                       BackgroundColor="{AppThemeBinding Light=#FAFAFA, Dark=#2B2B2B}"
-                       BorderColor="{AppThemeBinding Light=#BBBBBB, Dark=#555555}">
-                    <VerticalStackLayout Spacing="8">
-                        <Label Text="Seu papel"
-                               FontAttributes="Bold"
-                               TextColor="{AppThemeBinding Light=#111827, Dark=White}"/>
-                        <Label x:Name="RoleNameLabel"
-                               FontSize="24"
-                               FontAttributes="Bold"/>
-                        <Label x:Name="RoleDescriptionLabel"
-                               TextColor="{AppThemeBinding Light=#111827, Dark=#F3F4F6}"/>
-                    </VerticalStackLayout>
-                </Frame>
+                            <Border x:Name="RoleCardFrame"
+                                    IsVisible="False"
+                                    Padding="16"
+                                    BackgroundColor="{AppThemeBinding Light=#FAFAFA, Dark=#2B2B2B}"
+                                    Stroke="{AppThemeBinding Light=#BBBBBB, Dark=#555555}">
+                                   <VerticalStackLayout Spacing="8">
+                                          <Label Text="Seu papel"
+                                                 FontAttributes="Bold"
+                                                 TextColor="{AppThemeBinding Light=#111827, Dark=White}"/>
+                                          <Label x:Name="RoleNameLabel"
+                                                 FontSize="24"
+                                                 FontAttributes="Bold"/>
+                                          <Label x:Name="RoleDescriptionLabel"
+                                                 TextColor="{AppThemeBinding Light=#111827, Dark=#F3F4F6}"/>
+                                   </VerticalStackLayout>
+                            </Border>
 
-                <Button x:Name="NextRevealButton"
-                        IsVisible="False"
-                        Text="Próximo jogador"
-                        Clicked="OnNextRevealClicked"/>
-            </VerticalStackLayout>
+                            <Button x:Name="NextRevealButton"
+                                    IsVisible="False"
+                                    Text="Próximo jogador"
+                                    Clicked="OnNextRevealClicked"/>
+                     </VerticalStackLayout>
 
-            <VerticalStackLayout x:Name="TeamSelectionSection"
-                                 IsVisible="False"
-                                 Spacing="12">
-                <Label Text="3) Escolha da missão"
-                       FontAttributes="Bold"
-                       FontSize="18"
-                       TextColor="{AppThemeBinding Light=#111827, Dark=White}"/>
-                <Label x:Name="LeaderLabel"
-                       TextColor="{AppThemeBinding Light=#111827, Dark=#F3F4F6}"/>
-                <Label x:Name="RoundInfoLabel"
-                       TextColor="{AppThemeBinding Light=#111827, Dark=#F3F4F6}"/>
-                <Label x:Name="SpecialRuleLabel"
-                       TextColor="{AppThemeBinding Light=#B54708, Dark=#FDBA74}"/>
-                <Label x:Name="TeamSelectionCountLabel"
-                       TextColor="{AppThemeBinding Light=#111827, Dark=#F3F4F6}"/>
+                     <VerticalStackLayout x:Name="TeamSelectionSection"
+                                          IsVisible="False"
+                                          Spacing="12">
+                            <Label Text="3) Escolha da missão"
+                                   FontAttributes="Bold"
+                                   FontSize="18"
+                                   TextColor="{AppThemeBinding Light=#111827, Dark=White}"/>
+                            <Label x:Name="LeaderLabel"
+                                   TextColor="{AppThemeBinding Light=#111827, Dark=#F3F4F6}"/>
+                            <Label x:Name="RoundInfoLabel"
+                                   TextColor="{AppThemeBinding Light=#111827, Dark=#F3F4F6}"/>
+                            <Label x:Name="SpecialRuleLabel"
+                                   TextColor="{AppThemeBinding Light=#B54708, Dark=#FDBA74}"/>
+                            <Label x:Name="TeamSelectionCountLabel"
+                                   TextColor="{AppThemeBinding Light=#111827, Dark=#F3F4F6}"/>
 
-                <CollectionView x:Name="TeamPlayersCollection"
-                                SelectionMode="Multiple"
-                                SelectionChanged="OnTeamSelectionChanged"
-                                HeightRequest="280">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Frame Margin="0,0,0,8"
-                                   Padding="12"
-                                   BackgroundColor="{AppThemeBinding Light=#F7F7F7, Dark=#2B2B2B}"
-                                   BorderColor="{AppThemeBinding Light=#DDDDDD, Dark=#555555}">
-                                <Label Text="{Binding Name}"
-                                       TextColor="{AppThemeBinding Light=#111827, Dark=White}"/>
-                            </Frame>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                            <CollectionView x:Name="TeamPlayersCollection"
+                                            SelectionMode="Multiple"
+                                            SelectionChanged="OnTeamSelectionChanged"
+                                            HeightRequest="280">
+                                   <CollectionView.ItemTemplate>
+                                          <DataTemplate>
+                                                 <Border Margin="0,0,0,8"
+                                                         Padding="12"
+                                                         BackgroundColor="{AppThemeBinding Light=#F7F7F7, Dark=#2B2B2B}"
+                                                         Stroke="{AppThemeBinding Light=#DDDDDD, Dark=#555555}">
+                                                        <Label Text="{Binding Name}"
+                                                               TextColor="{AppThemeBinding Light=#111827, Dark=White}"/>
+                                                 </Border>
+                                          </DataTemplate>
+                                   </CollectionView.ItemTemplate>
+                            </CollectionView>
 
-                <Button x:Name="ConfirmTeamButton"
-                        Text="Confirmar equipe da missão"
-                        IsEnabled="False"
-                        Clicked="OnConfirmTeamClicked"/>
-            </VerticalStackLayout>
+                            <Button x:Name="ConfirmTeamButton"
+                                    Text="Confirmar equipe da missão"
+                                    IsEnabled="False"
+                                    Clicked="OnConfirmTeamClicked"/>
+                     </VerticalStackLayout>
 
-            <VerticalStackLayout x:Name="MissionVoteSection"
-                                 IsVisible="False"
-                                 Spacing="12">
-                <Label Text="4) Votação secreta da missão"
-                       FontAttributes="Bold"
-                       FontSize="18"
-                       TextColor="{AppThemeBinding Light=#111827, Dark=White}"/>
-                <Label x:Name="VotingPlayerLabel"
-                       TextColor="{AppThemeBinding Light=#111827, Dark=#F3F4F6}"/>
-                <Label x:Name="VotingHintLabel"
-                       TextColor="{AppThemeBinding Light=#111827, Dark=#F3F4F6}"/>
+                     <VerticalStackLayout x:Name="MissionVoteSection"
+                                          IsVisible="False"
+                                          Spacing="12">
+                            <Label Text="4) Votação secreta da missão"
+                                   FontAttributes="Bold"
+                                   FontSize="18"
+                                   TextColor="{AppThemeBinding Light=#111827, Dark=White}"/>
+                            <Label x:Name="VotingPlayerLabel"
+                                   TextColor="{AppThemeBinding Light=#111827, Dark=#F3F4F6}"/>
+                            <Label x:Name="VotingHintLabel"
+                                   TextColor="{AppThemeBinding Light=#111827, Dark=#F3F4F6}"/>
 
-                <Button x:Name="RevealVoteOptionsButton"
-                        Text="Estou pronto para votar"
-                        Clicked="OnRevealVoteOptionsClicked"/>
+                            <Button x:Name="RevealVoteOptionsButton"
+                                    Text="Estou pronto para votar"
+                                    Clicked="OnRevealVoteOptionsClicked"/>
 
-                <VerticalStackLayout x:Name="VoteButtonsPanel"
-                                     IsVisible="False"
-                                     Spacing="10">
-                    <Button x:Name="CooperateButton"
-                            Text="Cooperar"
-                            BackgroundColor="#D1FADF"
-                            Clicked="OnCooperateClicked"/>
-                    <Button x:Name="SabotageButton"
-                            Text="Sabotar"
-                            BackgroundColor="#FECACA"
-                            Clicked="OnSabotageClicked"/>
-                </VerticalStackLayout>
-            </VerticalStackLayout>
+                            <VerticalStackLayout x:Name="VoteButtonsPanel"
+                                                 IsVisible="False"
+                                                 Spacing="10">
+                                   <Button x:Name="CooperateButton"
+                                           Text="Cooperar"
+                                           BackgroundColor="#D1FADF"
+                                           Clicked="OnCooperateClicked"/>
+                                   <Button x:Name="SabotageButton"
+                                           Text="Sabotar"
+                                           BackgroundColor="#FECACA"
+                                           Clicked="OnSabotageClicked"/>
+                            </VerticalStackLayout>
+                     </VerticalStackLayout>
 
-            <VerticalStackLayout x:Name="MissionResultSection"
-                                 IsVisible="False"
-                                 Spacing="12">
-                <Label Text="5) Resultado da missão"
-                       FontAttributes="Bold"
-                       FontSize="18"
-                       TextColor="{AppThemeBinding Light=#111827, Dark=White}"/>
-                <Label x:Name="MissionOutcomeLabel"
-                       FontSize="24"
-                       FontAttributes="Bold"/>
-                <Label x:Name="MissionSummaryLabel"
-                       TextColor="{AppThemeBinding Light=#111827, Dark=#F3F4F6}"/>
-                <Label x:Name="MissionRuleSummaryLabel"
-                       TextColor="{AppThemeBinding Light=#111827, Dark=#F3F4F6}"/>
-                <Label x:Name="MissionHistoryLabel"
-                       TextColor="{AppThemeBinding Light=#111827, Dark=#F3F4F6}"/>
-                <Button x:Name="ContinueAfterMissionButton"
-                        Text="Próxima missão"
-                        Clicked="OnContinueAfterMissionClicked"/>
-            </VerticalStackLayout>
+                     <VerticalStackLayout x:Name="MissionResultSection"
+                                          IsVisible="False"
+                                          Spacing="12">
+                            <Label Text="5) Resultado da missão"
+                                   FontAttributes="Bold"
+                                   FontSize="18"
+                                   TextColor="{AppThemeBinding Light=#111827, Dark=White}"/>
+                            <Label x:Name="MissionOutcomeLabel"
+                                   FontSize="24"
+                                   FontAttributes="Bold"/>
+                            <Label x:Name="MissionSummaryLabel"
+                                   TextColor="{AppThemeBinding Light=#111827, Dark=#F3F4F6}"/>
+                            <Label x:Name="MissionRuleSummaryLabel"
+                                   TextColor="{AppThemeBinding Light=#111827, Dark=#F3F4F6}"/>
+                            <Label x:Name="MissionHistoryLabel"
+                                   TextColor="{AppThemeBinding Light=#111827, Dark=#F3F4F6}"/>
+                            <Button x:Name="ContinueAfterMissionButton"
+                                    Text="Próxima missão"
+                                    Clicked="OnContinueAfterMissionClicked"/>
+                     </VerticalStackLayout>
 
-            <VerticalStackLayout x:Name="GameOverSection"
-                                 IsVisible="False"
-                                 Spacing="12">
-                <Label Text="Fim de jogo"
-                       FontAttributes="Bold"
-                       FontSize="18"
-                       TextColor="{AppThemeBinding Light=#111827, Dark=White}"/>
-                <Label x:Name="GameOverLabel"
-                       FontSize="24"
-                       FontAttributes="Bold"
-                       TextColor="{AppThemeBinding Light=#111827, Dark=White}"/>
-                <Label x:Name="FinalHistoryLabel"
-                       TextColor="{AppThemeBinding Light=#111827, Dark=#F3F4F6}"/>
-                <Button Text="Nova partida"
-                        Clicked="OnRestartGameClicked"/>
-            </VerticalStackLayout>
-            <HorizontalStackLayout Spacing="10"
-                                   Margin="16,8,16,0">
-                <Button Text="Voltar"
-                        Clicked="OnBackClicked"
-                        HorizontalOptions="Start"/>
-                <Button x:Name="MerlinButton"
-                        Text="Merlin"
-                        Clicked="OnAssassinMerlinClicked"/>
-                <Button x:Name="AssassinButton"
-                        Text="Assassin"
-                        Clicked="OnAssassinMerlinClicked"/>
-            </HorizontalStackLayout>
-        </VerticalStackLayout>
+                     <VerticalStackLayout x:Name="GameOverSection"
+                                          IsVisible="False"
+                                          Spacing="12">
+                            <Label Text="Fim de jogo"
+                                   FontAttributes="Bold"
+                                   FontSize="18"
+                                   TextColor="{AppThemeBinding Light=#111827, Dark=White}"/>
+                            <Label x:Name="GameOverLabel"
+                                   FontSize="24"
+                                   FontAttributes="Bold"
+                                   TextColor="{AppThemeBinding Light=#111827, Dark=White}"/>
+                            <Label x:Name="FinalHistoryLabel"
+                                   TextColor="{AppThemeBinding Light=#111827, Dark=#F3F4F6}"/>
+                            <Button Text="Nova partida"
+                                    Clicked="OnRestartGameClicked"/>
+                     </VerticalStackLayout>
+                     <HorizontalStackLayout Spacing="10"
+                                            Margin="16,8,16,0">
+                            <Button Text="Voltar"
+                                    Clicked="OnBackClicked"
+                                    HorizontalOptions="Start"/>
+                            <Button x:Name="MerlinButton"
+                                    Text="Merlin"
+                                    Clicked="OnAssassinMerlinClicked"/>
+                            <Button x:Name="AssassinButton"
+                                    Text="Assassin"
+                                    Clicked="OnAssassinMerlinClicked"/>
+                     </HorizontalStackLayout>
+              </VerticalStackLayout>
 
-    </ScrollView>
+       </ScrollView>
 
 </ContentPage>
