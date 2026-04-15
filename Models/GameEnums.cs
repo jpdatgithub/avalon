@@ -15,7 +15,9 @@ public enum PlayerRole
     Resistance,
     Merlin,
     Spy,
-    Assassin
+    Assassin,
+    Percival,
+    Morgana
 }
 
 public enum MissionVoteType

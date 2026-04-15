@@ -65,34 +65,22 @@ public partial class MainPage : ContentPage
 		_session.State.UseAssassinMerlin = !_session.State.UseAssassinMerlin;
 		RenderState();
 	}
+	private void OnPercivalMorganaClicked(object? sender, EventArgs e)
+	{
+		if (_session.State.Phase != GamePhase.Lobby)
+		{
+			return;
+		}
 
-	// private void OnMerlinClicked(object? sender, EventArgs e)
-	// {
-	// 	if (_session.State.Phase != GamePhase.Lobby)
-	// 	{
-	// 		return;
-	// 	}
-
-	// 	_session.State.UseMerlin = !_session.State.UseMerlin;
-	// 	RenderState();
-	// }
-
-	// private void OnAssassinClicked(object? sender, EventArgs e)
-	// {
-	// 	if (_session.State.Phase != GamePhase.Lobby)
-	// 	{
-	// 		return;
-	// 	}
-
-	// 	_session.State.UseAssassin = !_session.State.UseAssassin;
-	// 	RenderState();
-	// }
+		_session.State.UsePercivalMorgana = !_session.State.UsePercivalMorgana;
+		RenderState();
+	}
 
 	private async void OnStartGameClicked(object? sender, EventArgs e)
 	{
 		try
 		{
-			_session.SetState(_gameService.StartNewGame(_lobbyPlayers, _session.State.UseAssassinMerlin));
+			_session.SetState(_gameService.StartNewGame(_lobbyPlayers, _session.State.UseAssassinMerlin, _session.State.UsePercivalMorgana));
 			_isRoleVisible = false;
 			TeamPlayersCollection.ItemsSource = _session.State.Players;
 			TeamPlayersCollection.SelectedItems = new List<object>();
@@ -217,19 +205,21 @@ public partial class MainPage : ContentPage
 		var activeSpecialRoles = string.Join(", ", new[]
 		{
 			state.UseAssassinMerlin ? "Merlin" : null,
-			state.UseAssassinMerlin ? "Assassino" : null
+			state.UseAssassinMerlin ? "Assassino" : null,
+			state.UsePercivalMorgana ? "Percival" : null,
+			state.UsePercivalMorgana ? "Morgana" : null
 		}.Where(role => !string.IsNullOrWhiteSpace(role)));
 
 		LobbyInfoLabel.Text = $"Jogadores cadastrados: {_lobbyPlayers.Count}/10 (mínimo 5). Especiais: {(string.IsNullOrWhiteSpace(activeSpecialRoles) ? "nenhuma" : activeSpecialRoles)}.";
 		StartGameButton.IsEnabled = _lobbyPlayers.Count >= 5;
 		ScoreLabel.Text = $"Missões aprovadas: {state.SuccessCount} | Missões falhas: {state.FailureCount}";
 		StatusLabel.Text = BuildStatusText(state);
-		MerlinButton.IsVisible = state.Phase == GamePhase.Lobby;
-		AssassinButton.IsVisible = state.Phase == GamePhase.Lobby;
-		MerlinButton.BackgroundColor = state.UseAssassinMerlin ? Color.FromArgb("#7C3AED") : Color.FromArgb("#E5E7EB");
-		MerlinButton.TextColor = state.UseAssassinMerlin ? Colors.White : Colors.Black;
-		AssassinButton.BackgroundColor = state.UseAssassinMerlin ? Color.FromArgb("#B42318") : Color.FromArgb("#E5E7EB");
-		AssassinButton.TextColor = state.UseAssassinMerlin ? Colors.White : Colors.Black;
+		AssassinMerlinButton.IsVisible = state.Phase == GamePhase.Lobby;
+		PercivalMorganaButton.IsVisible = state.Phase == GamePhase.Lobby;
+		AssassinMerlinButton.BackgroundColor = state.UseAssassinMerlin ? Color.FromArgb("#7C3AED") : Color.FromArgb("#D0312D");
+		AssassinMerlinButton.TextColor = state.UseAssassinMerlin ? Colors.White : Colors.Black;
+		PercivalMorganaButton.BackgroundColor = state.UsePercivalMorgana ? Color.FromArgb("#7C3AED") : Color.FromArgb("#D0312D");
+		PercivalMorganaButton.TextColor = state.UsePercivalMorgana ? Colors.White : Colors.Black;
 
 		LobbySection.IsVisible = state.Phase == GamePhase.Lobby;
 		RevealSection.IsVisible = state.Phase == GamePhase.RevealRoles;

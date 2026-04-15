@@ -224,12 +224,12 @@
                             <Button Text="Voltar"
                                     Clicked="OnBackClicked"
                                     HorizontalOptions="Start"/>
-                            <Button x:Name="MerlinButton"
-                                    Text="Merlin"
+                            <Button x:Name="AssassinMerlinButton"
+                                    Text="Assassin/Merlin"
                                     Clicked="OnAssassinMerlinClicked"/>
-                            <Button x:Name="AssassinButton"
-                                    Text="Assassin"
-                                    Clicked="OnAssassinMerlinClicked"/>
+                            <Button x:Name="PercivalMorganaButton"
+                                    Text="Percival/Morgana"
+                                    Clicked="OnPercivalMorganaClicked"/>
                      </HorizontalStackLayout>
               </VerticalStackLayout>
 

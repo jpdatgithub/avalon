@@ -27,4 +27,5 @@ public class GameState
     public bool AssassinMerlin { get; set; } = true;
 
     public bool UseAssassinMerlin { get; set; } = true;
+    public bool UsePercivalMorgana { get; set; } = false;
 }

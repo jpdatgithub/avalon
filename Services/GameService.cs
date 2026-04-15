@@ -6,7 +6,7 @@ public class GameService
 {
     private readonly Random _random = new();
 
-    public GameState StartNewGame(IEnumerable<string> playerNames, bool useAssassinMerlin = true)
+    public GameState StartNewGame(IEnumerable<string> playerNames, bool useAssassinMerlin = true, bool usePercivalMorgana = false)
     {
         var names = playerNames
             .Select(name => name.Trim())
@@ -24,7 +24,7 @@ public class GameService
             // .OrderBy(_ => _random.Next())
             .ToList();
 
-        AssignRoles(players, useAssassinMerlin);
+        AssignRoles(players, useAssassinMerlin, usePercivalMorgana);
 
         return new GameState
         {
@@ -37,6 +37,8 @@ public class GameService
             FailureCount = 0,
             CurrentMissionVoteIndex = 0,
             UseAssassinMerlin = useAssassinMerlin,
+            UsePercivalMorgana = usePercivalMorgana,
+
             WinnerMessage = string.Empty
         };
     }
@@ -196,7 +198,7 @@ public class GameService
             : GamePhase.MissionResult;
     }
 
-    private void AssignRoles(List<Player> players, bool useAssassinMerlin)
+    private void AssignRoles(List<Player> players, bool useAssassinMerlin, bool usePercivalMorgana)
     {
         var spyCount = players.Count switch
         {
@@ -227,10 +229,7 @@ public class GameService
             {
                 merlinCandidate.Role = PlayerRole.Merlin;
             }
-        }
 
-        if (useAssassinMerlin)
-        {
             var assassinCandidate = players
                 .Where(player => player.Role == PlayerRole.Spy)
                 .OrderBy(_ => _random.Next())
@@ -239,6 +238,29 @@ public class GameService
             if (assassinCandidate is not null)
             {
                 assassinCandidate.Role = PlayerRole.Assassin;
+            }
+        }
+
+        if (usePercivalMorgana)
+        {
+            var percivalCandidate = players
+                .Where(player => player.Role == PlayerRole.Resistance)
+                .OrderBy(_ => _random.Next())
+                .FirstOrDefault();
+
+            if (percivalCandidate is not null)
+            {
+                percivalCandidate.Role = PlayerRole.Percival;
+            }
+
+            var morganaCandidate = players
+                .Where(player => player.Role == PlayerRole.Spy)
+                .OrderBy(_ => _random.Next())
+                .FirstOrDefault();
+
+            if (morganaCandidate is not null)
+            {
+                morganaCandidate.Role = PlayerRole.Morgana;
             }
         }
     }
