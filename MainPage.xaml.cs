@@ -279,6 +279,8 @@ public partial class MainPage : ContentPage
 			PlayerRole.Merlin => "Merlin",
 			PlayerRole.Assassin => "Assassino",
 			PlayerRole.Spy => "Sabotador",
+			PlayerRole.Morgana => "Morgana",
+			PlayerRole.Percival => "Percival",
 			_ => "Resistência"
 		};
 
@@ -287,14 +289,18 @@ public partial class MainPage : ContentPage
 			PlayerRole.Merlin => "#7C3AED",
 			PlayerRole.Assassin => "#B42318",
 			PlayerRole.Spy => "#B42318",
+			PlayerRole.Morgana => "#B42318",
+			PlayerRole.Percival => "#7C3AED",
 			_ => "#1D4ED8"
 		});
 
 		RoleDescriptionLabel.Text = currentPlayer.Role switch
 		{
-			PlayerRole.Merlin => "Você é Merlin. Neste MVP, você joga com a Resistência e coopera normalmente nas missões.",
-			PlayerRole.Assassin => "Você é o Assassino. Neste MVP, você joga com os Sabotadores e pode cooperar ou sabotar nas missões.",
+			PlayerRole.Merlin => "Você é Merlin. Você saberá quem são é tirania e quem é resistência, mas cuidado para o Assassino não te matar.",
+			PlayerRole.Assassin => "Você é o Assassino. Como um sabotador, você pode cooperar ou sabotar, e além disso, tem uma chance de matar o Merlin ao fim de um jogo perdido e vira-lo.",
 			PlayerRole.Spy => "Seu objetivo é falhar 3 missões. Durante uma missão você pode cooperar para disfarçar ou sabotar.",
+			PlayerRole.Morgana => "Você é a Morgana. Percival terá de descobrir entre você e o Merlin quem é quem. Engane a resistência.",
+			PlayerRole.Percival => "Você é o Percival. Você terá de descobrir quem é o Merlin entre ele e a Morgana. Guie a resistência enquanto protege o Merlin.",
 			_ => "Seu objetivo é aprovar 3 missões. Durante uma missão você sempre coopera."
 		};
 	}
