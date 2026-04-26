@@ -6,7 +6,12 @@ public class GameService
 {
     private readonly Random _random = new();
 
-    public GameState StartNewGame(IEnumerable<string> playerNames, bool useAssassinMerlin = true, bool usePercivalMorgana = false)
+    public GameState StartNewGame(
+        IEnumerable<string> playerNames,
+        bool useAssassinMerlin = true,
+        bool usePercivalMorgana = false,
+        bool useMordred = false,
+        bool useOberon = false)
     {
         var names = playerNames
             .Select(name => name.Trim())
@@ -21,23 +26,25 @@ public class GameService
 
         var players = names
             .Select(name => new Player { Name = name })
-            // .OrderBy(_ => _random.Next())
             .ToList();
 
-        AssignRoles(players, useAssassinMerlin, usePercivalMorgana);
+        AssignRoles(players, useAssassinMerlin, usePercivalMorgana, useMordred, useOberon);
 
         return new GameState
         {
             Phase = GamePhase.RevealRoles,
             Players = players,
             RevealPlayerIndex = 0,
-            LeaderIndex = 0,
+            LeaderIndex = _random.Next(players.Count),
             RoundNumber = 1,
             SuccessCount = 0,
             FailureCount = 0,
+            RejectedCount = 0,
             CurrentMissionVoteIndex = 0,
             UseAssassinMerlin = useAssassinMerlin,
             UsePercivalMorgana = usePercivalMorgana,
+            UseMordred = useMordred,
+            UseOberon = useOberon,
 
             WinnerMessage = string.Empty
         };
@@ -107,7 +114,19 @@ public class GameService
         };
 
         state.CurrentMissionVoteIndex = 0;
+        state.RejectedCount = 0;
         state.Phase = GamePhase.MissionVote;
+    }
+
+    public void RejectMission(GameState state)
+    {
+        state.RejectedCount++;
+
+        state.WinnerMessage = state.RejectedCount >= 5 ? "Os sabotadores venceram com 5 equipes rejeitadas." : string.Empty;
+
+        state.LeaderIndex = (state.LeaderIndex + 1) % state.Players.Count;
+
+        state.Phase = state.RejectedCount >= 5 ? GamePhase.GameOver : GamePhase.SelectTeam;
     }
 
     public Player GetCurrentMissionVoter(GameState state)
@@ -198,7 +217,12 @@ public class GameService
             : GamePhase.MissionResult;
     }
 
-    private void AssignRoles(List<Player> players, bool useAssassinMerlin, bool usePercivalMorgana)
+    private void AssignRoles(
+        List<Player> players,
+        bool useAssassinMerlin,
+        bool usePercivalMorgana,
+        bool useMordred,
+        bool useOberon)
     {
         var spyCount = players.Count switch
         {
@@ -263,16 +287,42 @@ public class GameService
                 morganaCandidate.Role = PlayerRole.Morgana;
             }
         }
+
+        if (useMordred)
+        {
+            var mordredCandidate = players
+                .Where(player => player.Role == PlayerRole.Spy)
+                .OrderBy(_ => _random.Next())
+                .FirstOrDefault();
+
+            if (mordredCandidate is not null)
+            {
+                mordredCandidate.Role = PlayerRole.Mordred;
+            }
+        }
+
+        if (useOberon)
+        {
+            var oberonCandidate = players
+                .Where(player => player.Role == PlayerRole.Spy)
+                .OrderBy(_ => _random.Next())
+                .FirstOrDefault();
+
+            if (oberonCandidate is not null)
+            {
+                oberonCandidate.Role = PlayerRole.Oberon;
+            }
+        }
     }
 
     private static bool IsResistanceRole(PlayerRole role)
     {
-        return role is PlayerRole.Resistance or PlayerRole.Merlin;
+        return role is PlayerRole.Resistance or PlayerRole.Merlin or PlayerRole.Percival;
     }
 
     private static bool IsSpyRole(PlayerRole role)
     {
-        return role is PlayerRole.Spy or PlayerRole.Assassin;
+        return role is PlayerRole.Spy or PlayerRole.Assassin or PlayerRole.Morgana or PlayerRole.Mordred or PlayerRole.Oberon;
     }
 
     public void GoBack(GameState state)

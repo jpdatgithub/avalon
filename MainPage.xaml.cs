@@ -76,11 +76,38 @@ public partial class MainPage : ContentPage
 		RenderState();
 	}
 
+	private void OnMordredClicked(object? sender, EventArgs e)
+	{
+		if (_session.State.Phase != GamePhase.Lobby)
+		{
+			return;
+		}
+
+		_session.State.UseMordred = !_session.State.UseMordred;
+		RenderState();
+	}
+
+	private void OnOberonClicked(object? sender, EventArgs e)
+	{
+		if (_session.State.Phase != GamePhase.Lobby)
+		{
+			return;
+		}
+
+		_session.State.UseOberon = !_session.State.UseOberon;
+		RenderState();
+	}
+
 	private async void OnStartGameClicked(object? sender, EventArgs e)
 	{
 		try
 		{
-			_session.SetState(_gameService.StartNewGame(_lobbyPlayers, _session.State.UseAssassinMerlin, _session.State.UsePercivalMorgana));
+			_session.SetState(_gameService.StartNewGame(
+				_lobbyPlayers,
+				_session.State.UseAssassinMerlin,
+				_session.State.UsePercivalMorgana,
+				_session.State.UseMordred,
+				_session.State.UseOberon));
 			_isRoleVisible = false;
 			TeamPlayersCollection.ItemsSource = _session.State.Players;
 			TeamPlayersCollection.SelectedItems = new List<object>();
@@ -118,6 +145,7 @@ public partial class MainPage : ContentPage
 		var selectedCount = GetSelectedPlayers().Count;
 		TeamSelectionCountLabel.Text = $"Selecionados: {selectedCount}/{required}";
 		ConfirmTeamButton.IsEnabled = selectedCount == required;
+		RejectTeamButton.IsEnabled = selectedCount == required;
 	}
 
 	private async void OnConfirmTeamClicked(object? sender, EventArgs e)
@@ -132,6 +160,14 @@ public partial class MainPage : ContentPage
 		{
 			await DisplayAlertAsync("Equipe inválida", ex.Message, "OK");
 		}
+	}
+
+	private async void OnRejectTeamClicked(object? sender, EventArgs e)
+	{
+		_gameService.RejectMission(_session.State);
+		TeamPlayersCollection.SelectedItems = new List<object>();
+		ResetVoteUi();
+		RenderState();
 	}
 
 	private void OnRevealVoteOptionsClicked(object? sender, EventArgs e)
@@ -207,19 +243,28 @@ public partial class MainPage : ContentPage
 			state.UseAssassinMerlin ? "Merlin" : null,
 			state.UseAssassinMerlin ? "Assassino" : null,
 			state.UsePercivalMorgana ? "Percival" : null,
-			state.UsePercivalMorgana ? "Morgana" : null
+			state.UsePercivalMorgana ? "Morgana" : null,
+			state.UseMordred ? "Mordred" : null,
+			state.UseOberon ? "Oberon" : null
 		}.Where(role => !string.IsNullOrWhiteSpace(role)));
 
 		LobbyInfoLabel.Text = $"Jogadores cadastrados: {_lobbyPlayers.Count}/10 (mínimo 5). Especiais: {(string.IsNullOrWhiteSpace(activeSpecialRoles) ? "nenhuma" : activeSpecialRoles)}.";
 		StartGameButton.IsEnabled = _lobbyPlayers.Count >= 5;
 		ScoreLabel.Text = $"Missões aprovadas: {state.SuccessCount} | Missões falhas: {state.FailureCount}";
 		StatusLabel.Text = BuildStatusText(state);
+		RejectedCountLabel.Text = state.Phase == GamePhase.SelectTeam ? $"Equipes rejeitadas nesta missão: {state.RejectedCount}" : string.Empty;
 		AssassinMerlinButton.IsVisible = state.Phase == GamePhase.Lobby;
 		PercivalMorganaButton.IsVisible = state.Phase == GamePhase.Lobby;
+		MordredButton.IsVisible = state.Phase == GamePhase.Lobby;
+		OberonButton.IsVisible = state.Phase == GamePhase.Lobby;
 		AssassinMerlinButton.BackgroundColor = state.UseAssassinMerlin ? Color.FromArgb("#7C3AED") : Color.FromArgb("#D0312D");
 		AssassinMerlinButton.TextColor = state.UseAssassinMerlin ? Colors.White : Colors.Black;
 		PercivalMorganaButton.BackgroundColor = state.UsePercivalMorgana ? Color.FromArgb("#7C3AED") : Color.FromArgb("#D0312D");
 		PercivalMorganaButton.TextColor = state.UsePercivalMorgana ? Colors.White : Colors.Black;
+		MordredButton.BackgroundColor = state.UseMordred ? Color.FromArgb("#7C3AED") : Color.FromArgb("#D0312D");
+		MordredButton.TextColor = state.UseMordred ? Colors.White : Colors.Black;
+		OberonButton.BackgroundColor = state.UseOberon ? Color.FromArgb("#7C3AED") : Color.FromArgb("#D0312D");
+		OberonButton.TextColor = state.UseOberon ? Colors.White : Colors.Black;
 
 		LobbySection.IsVisible = state.Phase == GamePhase.Lobby;
 		RevealSection.IsVisible = state.Phase == GamePhase.RevealRoles;
@@ -266,7 +311,20 @@ public partial class MainPage : ContentPage
 	{
 		var currentPlayer = state.Players[state.RevealPlayerIndex];
 
-		RevealPromptLabel.Text = $"Passe o celular para {currentPlayer.Name} e toque somente quando a pessoa estiver pronta.";
+		RevealPromptLabel.FormattedText = new FormattedString
+		{
+			Spans =
+			{
+				new Span { Text = "Passe o celular para " },
+				new Span
+				{
+					Text = currentPlayer.Name,
+					FontAttributes = FontAttributes.Bold,
+					FontSize = 22
+				},
+				new Span { Text = " e toque somente quando a pessoa estiver pronta." }
+			}
+		};
 		ShowRoleButton.IsVisible = !_isRoleVisible;
 		RoleCardFrame.IsVisible = _isRoleVisible;
 		NextRevealButton.IsVisible = _isRoleVisible;
@@ -281,6 +339,8 @@ public partial class MainPage : ContentPage
 			PlayerRole.Spy => "Sabotador",
 			PlayerRole.Morgana => "Morgana",
 			PlayerRole.Percival => "Percival",
+			PlayerRole.Mordred => "Mordred",
+			PlayerRole.Oberon => "Oberon",
 			_ => "Resistência"
 		};
 
@@ -290,6 +350,8 @@ public partial class MainPage : ContentPage
 			PlayerRole.Assassin => "#B42318",
 			PlayerRole.Spy => "#B42318",
 			PlayerRole.Morgana => "#B42318",
+			PlayerRole.Mordred => "#B42318",
+			PlayerRole.Oberon => "#B42318",
 			PlayerRole.Percival => "#7C3AED",
 			_ => "#1D4ED8"
 		});
@@ -301,6 +363,8 @@ public partial class MainPage : ContentPage
 			PlayerRole.Spy => "Seu objetivo é falhar 3 missões. Durante uma missão você pode cooperar para disfarçar ou sabotar.",
 			PlayerRole.Morgana => "Você é a Morgana. Percival terá de descobrir entre você e o Merlin quem é quem. Engane a resistência.",
 			PlayerRole.Percival => "Você é o Percival. Você terá de descobrir quem é o Merlin entre ele e a Morgana. Guie a resistência enquanto protege o Merlin.",
+			PlayerRole.Mordred => "Você é Mordred. Você é um sabotador e pode cooperar para disfarçar ou sabotar a missão.",
+			PlayerRole.Oberon => "Você é Oberon. Você é um sabotador e pode cooperar para disfarçar ou sabotar a missão.",
 			_ => "Seu objetivo é aprovar 3 missões. Durante uma missão você sempre coopera."
 		};
 	}
@@ -319,6 +383,7 @@ public partial class MainPage : ContentPage
 			: "Regra padrão: 1 sabotagem já faz a missão falhar.";
 		TeamSelectionCountLabel.Text = $"Selecionados: {selectedCount}/{requiredPlayers}";
 		ConfirmTeamButton.IsEnabled = selectedCount == requiredPlayers;
+		RejectTeamButton.IsEnabled = selectedCount == requiredPlayers;
 	}
 
 	private void RenderMissionVotePhase(GameState state)
@@ -326,7 +391,20 @@ public partial class MainPage : ContentPage
 		var currentPlayer = _gameService.GetCurrentMissionVoter(state);
 		var teamSize = state.CurrentMission?.TeamPlayerIds.Count ?? 0;
 
-		VotingPlayerLabel.Text = $"Passe o celular para {currentPlayer.Name} ({state.CurrentMissionVoteIndex + 1}/{teamSize} da equipe).";
+		VotingPlayerLabel.FormattedText = new FormattedString
+		{
+			Spans =
+			{
+				new Span { Text = "Passe o celular para " },
+				new Span
+				{
+					Text = currentPlayer.Name.ToUpper(),
+					FontAttributes = FontAttributes.Bold,
+					FontSize = 22
+				},
+				new Span { Text = $" ({state.CurrentMissionVoteIndex + 1}/{teamSize} da equipe)." }
+			}
+		};
 
 		if (!VoteButtonsPanel.IsVisible)
 		{

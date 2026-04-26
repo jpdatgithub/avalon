@@ -26,6 +26,9 @@
                                    <Label x:Name="ScoreLabel"
                                           Text="Missões aprovadas: 0 | Missões falhas: 0"
                                           TextColor="{AppThemeBinding Light=#111827, Dark=#F3F4F6}"/>
+                                   <Label x:Name="RejectedCountLabel"
+                                          Text=""
+                                          TextColor="{AppThemeBinding Light=#111827, Dark=#F3F4F6}"/>
                             </VerticalStackLayout>
                      </Border>
 
@@ -150,6 +153,10 @@
                                     Text="Confirmar equipe da missão"
                                     IsEnabled="False"
                                     Clicked="OnConfirmTeamClicked"/>
+                            <Button x:Name="RejectTeamButton"
+                                    Text="Rejeitar equipe da missão"
+                                    IsEnabled="False"
+                                    Clicked="OnRejectTeamClicked"/>
                      </VerticalStackLayout>
 
                      <VerticalStackLayout x:Name="MissionVoteSection"
@@ -173,11 +180,11 @@
                                                  Spacing="10">
                                    <Button x:Name="CooperateButton"
                                            Text="Cooperar"
-                                           BackgroundColor="#D1FADF"
+                                           BackgroundColor="#FF08C547"
                                            Clicked="OnCooperateClicked"/>
                                    <Button x:Name="SabotageButton"
                                            Text="Sabotar"
-                                           BackgroundColor="#FECACA"
+                                           BackgroundColor="#FFDA0909"
                                            Clicked="OnSabotageClicked"/>
                             </VerticalStackLayout>
                      </VerticalStackLayout>
@@ -219,18 +226,31 @@
                             <Button Text="Nova partida"
                                     Clicked="OnRestartGameClicked"/>
                      </VerticalStackLayout>
-                     <HorizontalStackLayout Spacing="10"
-                                            Margin="16,8,16,0">
+                     <FlexLayout Direction="Row"
+                                 Wrap="Wrap"
+                                 AlignItems="Center"
+                                 JustifyContent="Start"
+                                 Margin="16,8,16,0">
                             <Button Text="Voltar"
                                     Clicked="OnBackClicked"
-                                    HorizontalOptions="Start"/>
+                                    Margin="0,0,10,10"/>
                             <Button x:Name="AssassinMerlinButton"
                                     Text="Assassin/Merlin"
-                                    Clicked="OnAssassinMerlinClicked"/>
+                                    Clicked="OnAssassinMerlinClicked"
+                                    Margin="0,0,10,10"/>
                             <Button x:Name="PercivalMorganaButton"
                                     Text="Percival/Morgana"
-                                    Clicked="OnPercivalMorganaClicked"/>
-                     </HorizontalStackLayout>
+                                    Clicked="OnPercivalMorganaClicked"
+                                    Margin="0,0,10,10"/>
+                            <Button x:Name="MordredButton"
+                                    Text="Mordred"
+                                    Clicked="OnMordredClicked"
+                                    Margin="0,0,10,10"/>
+                            <Button x:Name="OberonButton"
+                                    Text="Oberon"
+                                    Clicked="OnOberonClicked"
+                                    Margin="0,0,10,10"/>
+                     </FlexLayout>
               </VerticalStackLayout>
 
        </ScrollView>

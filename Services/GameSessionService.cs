@@ -15,7 +15,10 @@ public class GameSessionService
     {
         State = new GameState
         {
-            UseAssassinMerlin = State.UseAssassinMerlin
+            UseAssassinMerlin = State.UseAssassinMerlin,
+            UsePercivalMorgana = State.UsePercivalMorgana,
+            UseMordred = State.UseMordred,
+            UseOberon = State.UseOberon
         };
     }
 }

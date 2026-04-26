@@ -17,7 +17,9 @@ public enum PlayerRole
     Spy,
     Assassin,
     Percival,
-    Morgana
+    Morgana,
+    Mordred,
+    Oberon
 }
 
 public enum MissionVoteType
